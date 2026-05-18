@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Love Vault</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #050505, #12051a, #1b1026);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .lock-screen {
+      width: 100%;
+      max-width: 450px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 25px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(255, 0, 128, 0.2);
+    }
+
+    .lock-icon {
+      font-size: 70px;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .title {
+      font-size: 38px;
+      color: #ff4da6;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .subtitle {
+      color: #cccccc;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    .terminal {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(0,255,0,0.2);
+      border-radius: 15px;
+      padding: 15px;
+      color: #00ff88;
+      text-align: left;
+      margin-bottom: 25px;
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 15px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.5);
+      color: white;
+      outline: none;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 15px;
+      background: #ff4da6;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #ff2d92;
+      transform: translateY(-2px);
+    }
+
+    .error {
+      color: #ff5c5c;
+      margin-top: 15px;
+      display: none;
+    }
+
+    .main-content {
+      display: none;
+      padding: 40px 20px;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .hero h1 {
+      font-size: 60px;
+      color: #ff4da6;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.8;
+      color: #ddd;
+      font-size: 18px;
+    }
+
+    .countdown {
+      margin-top: 30px;
+      display: inline-block;
+      padding: 20px 30px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 20px rgba(255, 0, 128, 0.15);
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-top: 50px;
+    }
+
+    .card {
+      overflow: hidden;
+      border-radius: 25px;
+      position: relative;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    .card img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      transition: 0.5s;
+    }
+
+    .card:hover img {
+      transform: scale(1.1);
+    }
+
+    .card-text {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 20px;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    }
+
+    .love-letter {
+      max-width: 850px;
+      margin: 70px auto;
+      padding: 40px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 25px;
+      border: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+      line-height: 2;
+      color: #ddd;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 50px 20px;
+      color: #ffb6d9;
+      font-size: 20px;
+    }
+
+    .heart {
+      position: fixed;
+      color: rgba(255, 77, 166, 0.3);
+      animation: float 10s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes float {
+      from {
+        transform: translateY(100vh);
+      }
+      to {
+        transform: translateY(-120vh);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="lockContainer">
+    <div class="lock-screen">
+      <div class="lock-icon">🔐</div>
+
+      <h1 class="title">Cyber Love Vault</h1>
+
+      <p class="subtitle">
+        This birthday experience is protected by encrypted love and secured memories.
+        Enter the password to continue.
+      </p>
+
+      <div class="terminal">
+        > Initializing LOVE_PROTOCOL.exe<br>
+        > Encrypting birthday memories...<br>
+        > Awaiting authentication...<br>
+      </div>
+
+      <input type="password" id="password" placeholder="Enter secret password" />
+
+      <button onclick="unlockVault()">Unlock Love ❤️</button>
+
+      <p class="error" id="error">Access Denied 🚫 Incorrect Password</p>
+    </div>
+  </div>
+
+  <div class="main-content" id="mainContent">
+
+    <section class="hero">
+      <h1>Happy Birthday Mmesoma 🎂</h1>
+
+      <p>
+        Today is not just another day. It is the celebration of the most beautiful soul in my life.
+        Thank you for bringing peace, happiness, and endless love into my world.
+      </p>
+
+      <div class="countdown">
+        <h3>Countdown To  Another Year Ahead ⏳</h3>
+        <h2 id="countdownTimer">Loading...</h2>
+      </div>
+    </section>
+
+    <section class="love-letter">
+      <h2 style="margin-bottom:20px; color:#ff4da6; font-size:35px;">
+        A Letter From My Heart 💌
+      </h2>
+
+      <p>
+        My Love,
+
+Where do I even begin? Sometimes I sit quietly and think about how much you mean to me, and honestly, words never seem enough. You came into my life and changed so many things without even trying. You brought peace into places that used to feel empty, joy into days that once felt ordinary, and warmth into my heart in a way I never imagined possible.
+
+Loving you has become one of the most beautiful parts of my life.
+
+Every moment with you matters to me, even the smallest ones. The random conversations, the laughter we share, the little things you do without realizing how special they are — all of it stays in my heart. You make life feel lighter. You make difficult days easier. Even when the world feels stressful or unfair, somehow just thinking about you reminds me that there is still something beautiful worth holding onto.
+
+You are more than just someone I love. You are my comfort, my happiness, my peace, and one of the greatest blessings life has given me.
+
+I admire your heart so much. The way you care, the way you smile, the way you carry yourself, the way you make people around you feel seen and appreciated — it’s rare. There is something so beautiful about your soul, and every day I become more grateful that I get to know someone like you. Sometimes I wonder if you truly realize how amazing you are, because from where I stand, you are absolutely unforgettable.
+
+On your birthday, I want you to remember something very important: you are deeply loved.
+
+Not just for how you look, not just for the good moments, but for who you truly are. I love your energy, your personality, your dreams, your flaws, your laughter, your soft moments, and even the parts of you that you think are imperfect. To me, those things make you even more special.
+
+Thank you for existing.
+Thank you for your patience.
+Thank you for your kindness.
+Thank you for every smile you’ve ever given me.
+Thank you for every moment you stayed.
+Thank you for being part of my life.
+
+I know life is not always easy. There are days filled with pressure, confusion, stress, and silent battles nobody else sees. But I hope you always remember that you are stronger than you think, more valuable than you realize, and more loved than words can explain.
+
+No matter where life takes us, a part of my heart will always belong to you.
+
+I pray this new year of your life brings you happiness that never fades, peace that calms your heart, success in everything you do, and love that surrounds you every single day. I hope your dreams come true one by one. I hope you wake up every morning feeling appreciated, celebrated, and cared for. You deserve beautiful things. You deserve genuine happiness.
+
+And if life ever gets dark or difficult, I hope you remember that there will always be someone somewhere rooting for you, believing in you, praying for you, and loving you deeply — and that person is me.
+
+You have given my life memories I will never forget. You have made ordinary moments feel magical. You have become one of my favorite chapters in life, and honestly, I never want this feeling to disappear.
+
+Happy Birthday to the most beautiful soul I know.
+
+May your smile never fade.
+May your heart always stay soft.
+May your light continue to shine brightly.
+And may love continue to find you in every season of life.
+
+Forever and always,
+With all my love ❤️
+
+      </p>
+    </section>
+
+    <section class="gallery">
+      <div class="card">
+        <img src="lol.jpeg" alt="memory">
+        <div class="card-text">
+          <h2>Beautiful Memory ❤️</h2>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="Goodness.jpeg"memory">
+        <div class="card-text">
+          <h2>Forever Together ✨</h2>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="Mmesom.jpeg" alt="memory">
+        <div class="card-text">
+          <h2>My Favorite Person 💖</h2>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="image.jpeg" alt="memory">
+        <div class="card-text">
+          <h2>Endless Love 🌹</h2>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      Forever To Us! Be Ye Lover Or Friendship ❤️✨
+    </div>
+
+  </div>
+
+  <audio autoplay loop>
+    <source src="music_nelly-just-dream" type="audio/mp3">
+  </audio>
+
+  <script>
+    const correctPassword = "Mmesoma";
+
+    function unlockVault() {
+      const password = document.getElementById("password").value;
+      const error = document.getElementById("error");
+
+      if (password === correctPassword) {
+        document.getElementById("lockContainer").style.display = "none";
+        document.getElementById("mainContent").style.display = "block";
+
+        alert("ACCESS GRANTED ❤️ Welcome To The Love Vault");
+      } else {
+        error.style.display = "block";
+      }
+    // }
+
+    // const countdownDate = new Date("December 31, 2026 00:00:00").getTime();
+
+    // function updateCountdown() {
+    //   const now = new Date().getTime();
+    //   const distance = countdownDate - now;
+
+    //   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    //   const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    //   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+    //   document.getElementById("countdownTimer").innerHTML =
+    //     `${days}d ${hours}h ${minutes}m`;
+    // }
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    for (let i = 0; i < 20; i++) {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 20 + 15 + "px";
+      heart.style.animationDuration = Math.random() * 5 + 5 + "s";
+      document.body.appendChild(heart);
+    }
+  </script>
+
+</body>
+</html>
