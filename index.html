@@ -319,7 +319,6 @@ And may love continue to find you in every season of life.
 
 Forever and always,
 With all my love ❤️
-
       </p>
     </section>
 
@@ -351,6 +350,35 @@ With all my love ❤️
           <h2>Endless Love 🌹</h2>
         </div>
       </div>
+
+      <div class="card">
+        <img src="image.jpeg" alt="memory">
+        <div class="card-text">
+          <h2>Unforgettable Moments 🌟</h2>
+        </div>
+      </div>
+        
+      <div class="card">
+        <img src="image.jpeg" alt="memory">
+        <div class="card-text">
+          <h2>My Sunshine ☀️</h2>
+        </div>
+        </div>
+
+        <div class="card">
+          <img src="image.jpeg" alt="memory">
+          <div class="card-text">
+            <h2>My Forever Person 💕</h2>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="image.jpeg" alt="memory">
+          <div class="card-text">
+            <h2>My Heart's Home 🏡</h2>
+          </div>
+        </div>
+
     </section>
 
     <div class="footer">
@@ -378,22 +406,23 @@ With all my love ❤️
       } else {
         error.style.display = "block";
       }
-    // }
+      }
+     
+      const countdownDate = new Date("May 30, 2027 00:00:00").getTime();
 
-    // const countdownDate = new Date("December 31, 2026 00:00:00").getTime();
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = countdownDate - now;
 
-    // function updateCountdown() {
-    //   const now = new Date().getTime();
-    //   const distance = countdownDate - now;
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+       document.getElementById("countdownTimer").innerHTML =
+         `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+    
 
-    //   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    //   const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    //   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-    //   document.getElementById("countdownTimer").innerHTML =
-    //     `${days}d ${hours}h ${minutes}m`;
-    // }
-    }
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
